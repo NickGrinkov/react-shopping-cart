@@ -33,10 +33,6 @@ const App = () => {
       return items.reduce((acc: number, item) => acc + item.amount, 0)
   };
 
-  const getTotalPrice = (items: ICartItem[]) => {
-    return items.reduce((acc: number, item) => acc + item.price, 0)
-  }
-
   const handleAddToCart = (clickedItem: ICartItem) => {
     setCartItems(prev => {
       
@@ -53,7 +49,18 @@ const App = () => {
      })
   };
 
-  const handleRemoveFromCart = () => null;
+  const handleRemoveFromCart = (id: number) => {
+    setCartItems(prev => 
+      prev.reduce((acc, item) => {
+        if(item.id === id) {
+          if(item.amount === 1) return acc
+          return [...acc, {...item, amount: item.amount - 1}]
+        } else {
+          return [...acc, item]
+        }
+      }, [] as ICartItem[])
+    )
+  };
 
   if(isLoading) return <LinearProgress/>
 

@@ -21,7 +21,7 @@ const CartItem: FC<Props> = ( {item, addToCart, removeFromCart} ) => {
                 <h3>{item.title}</h3>
                 <div className='information'>
                     <span>Price: ${item.price}</span>
-                    <span>Total: ${item.amount}</span>
+                    <span>Total: ${item.amount * item.price}</span>
                 </div>
                 <div className='buttons'>
                     <Button

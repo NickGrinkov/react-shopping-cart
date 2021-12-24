@@ -14,6 +14,9 @@ interface Props {
 
 
 const Cart: FC<Props> = ({ cartItems,  addToCart, removeFromCart}) => {
+    const calculateTotal = (items: ICartItem[]) => {
+        return items.reduce((acc: number, item) => acc + item.amount * item.price, 0)
+    } 
     return (
         <Wrapper>
             <h2>Your Shopping Cart</h2>
@@ -26,6 +29,7 @@ const Cart: FC<Props> = ({ cartItems,  addToCart, removeFromCart}) => {
                     removeFromCart={removeFromCart}
                 />
             ))}
+            <h3>Total: ${calculateTotal(cartItems).toFixed(2)}</h3>
         </Wrapper>
     )
 }
