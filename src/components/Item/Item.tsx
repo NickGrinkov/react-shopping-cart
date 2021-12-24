@@ -6,12 +6,12 @@ import { ICartItem } from '../../App'
 
 import { Wrapper } from './Item.styles'
 
-interface ItemProps {
+interface Props {
     item: ICartItem,
     handleAddToCart: (clickedItem: ICartItem) => void
 }
 
-const Item: FC<ItemProps> = ({ item,  handleAddToCart}) => (
+const Item: FC<Props> = ({ item,  handleAddToCart}) => (
     <Wrapper>
         <img src={item.image} alt={item.title}/>
         <div>
