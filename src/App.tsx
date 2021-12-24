@@ -5,7 +5,7 @@ import Item from './components/Item/Item';
 import { Drawer, LinearProgress, Grid, Badge } from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons';
 
-import {Wrapper} from './App.styles';
+import {Wrapper, StyledButton} from './App.styles';
 
 export interface ICartItem {
   id: number,
@@ -22,10 +22,19 @@ const getProducts = async (): Promise<ICartItem[]> =>
 
 
 const App = () => {
-  const {data, isLoading, error} = useQuery<ICartItem[]>('products', getProducts)
+  const [cartOpened, setCartOpened] = useState(false)
+  const [cartItems, setCartItems] = useState([] as ICartItem[])
   
+  
+  const {data, isLoading, error} = useQuery<ICartItem[]>('products', getProducts)
 
-  const getTotalItems = () => null;
+  const getTotalItems = (items: ICartItem[]) => {
+      return items.reduce((acc: number, item) => acc + item.amount, 0)
+  };
+
+  const getTotalPrice = (items: ICartItem[]) => {
+    return items.reduce((acc: number, item) => acc + item.price, 0)
+  }
 
   const handleAddToCart = (clickedItem: ICartItem) => null;
 
@@ -37,13 +46,21 @@ const App = () => {
   
   return (
     <Wrapper>
-        <Grid container spacing={3}>
-          {data?.map(item => (
-              <Grid item key={item.id} xs={12} sm={4}>
-                  <Item item={item} handleAddToCart={handleAddToCart}/>
-              </Grid>
-            ))}
-        </Grid>
+      <Drawer anchor='right' open={cartOpened} onClose={() => setCartOpened(false)}>
+        Cart is here
+      </Drawer>
+      <StyledButton onClick={() => setCartOpened(true)}>
+        <Badge badgeContent={getTotalItems(cartItems)} color='error'>
+            <AddShoppingCart/>
+        </Badge> 
+      </StyledButton>
+      <Grid container spacing={3}>
+        {data?.map(item => (
+            <Grid item key={item.id} xs={12} sm={4}>
+                <Item item={item} handleAddToCart={handleAddToCart}/>
+            </Grid>
+          ))}
+      </Grid>
     </Wrapper>
   );
 }
