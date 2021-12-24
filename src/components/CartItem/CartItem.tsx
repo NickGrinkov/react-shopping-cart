@@ -19,11 +19,11 @@ const CartItem: FC<Props> = ( {item, addToCart, removeFromCart} ) => {
         <Wrapper>
             <div>
                 <h3>{item.title}</h3>
-                <div>
+                <div className='information'>
                     <span>Price: ${item.price}</span>
                     <span>Total: ${item.amount}</span>
                 </div>
-                <div>
+                <div className='buttons'>
                     <Button
                     size='small'
                     onClick={() => removeFromCart(item.id)}>
